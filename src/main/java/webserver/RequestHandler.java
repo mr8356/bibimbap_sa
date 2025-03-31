@@ -1,5 +1,7 @@
 package webserver;
 
+import webserver.handler.Handler;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -12,41 +14,26 @@ public class RequestHandler implements Runnable{
     public RequestHandler(Socket connection) {
         this.connection = connection;
     }
-
     @Override
     public void run() {
         log.log(Level.INFO, "New Client Connect! Connected IP : " + connection.getInetAddress() + ", Port : " + connection.getPort());
-        try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()){
+
+        try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             DataOutputStream dos = new DataOutputStream(out);
 
-            byte[] body = "Hello World".getBytes();
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+            String line = br.readLine();
+            if (line == null || line.isEmpty()) return;
 
-        } catch (IOException e) {
-            log.log(Level.SEVERE,e.getMessage());
-        }
-    }
+            String[] tokens = line.split(" ");
+            String url = tokens[1];
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
-        try {
-            dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
-            dos.writeBytes("\r\n");
+            // Dispatcher를 통해 해당 요청을 처리할 핸들러 선택
+            Handler handler = Dispatcher.getHandler(url);
+            handler.handle(dos);
+
         } catch (IOException e) {
             log.log(Level.SEVERE, e.getMessage());
         }
     }
-
-    private void responseBody(DataOutputStream dos, byte[] body) {
-        try {
-            dos.write(body, 0, body.length);
-            dos.flush();
-        } catch (IOException e) {
-            log.log(Level.SEVERE, e.getMessage());
-        }
-    }
-
 }
