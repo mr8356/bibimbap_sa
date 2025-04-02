@@ -17,19 +17,14 @@ class DistributedFileSystem {
 		int replication = 3;
 		List<DataNode> selectedNodes = nameNode.chooseDataNodes(replication, dataNodes);
 
-		for (DataNode dn : selectedNodes) {
-			dn.storeBlock(filename, data);
-		}
-
-		nameNode.saveFileMetadata(filename, selectedNodes);
+		// 선택한 노드에 저장 및 메타데이터 저장
 	}
 
 	public String readFile(String filename) {
 		List<DataNode> locations = nameNode.getFileLocations(filename);
-		for (DataNode dn : locations) {
-			String data = dn.getBlock(filename);
-			if (data != null) return data;
-		}
-		return "[FILE_NOT_FOUND]";
+
+		// 메타데이터(locations)에서 data 하나라도 찾으면 반환
+
+		return "[FILE_NOT_FOUND]"; // 찾지 못한 경우
 	}
 }

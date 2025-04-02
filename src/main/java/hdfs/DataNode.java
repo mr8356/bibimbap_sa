@@ -12,11 +12,11 @@ class DataNode {
 	}
 
 	public void storeBlock(String blockId, String data) {
-		storedBlocks.put(blockId, data);
+
 	}
 
 	public String getBlock(String blockName) {
-		return storedBlocks.get(blockName);
+
 	}
 
 	public void printStoredBlocks() {
