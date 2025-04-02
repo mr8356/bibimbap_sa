@@ -1,35 +1,29 @@
 package hdfs;
+
 import java.util.*;
 
-// Master
 class NameNode {
-	private final Map<String, Integer> fileMetadata = new HashMap<>();
+	private final Map<String, List<DataNode>> fileLocations = new HashMap<>();
 
-	public List<List<DataNode>> assignDataNodes(int numBlocks, List<DataNode> allDataNodes) {
-		List<List<DataNode>> pipelines = new ArrayList<>();
-		Random rand = new Random();
-		int replication = 3;
+	public List<DataNode> chooseDataNodes(int count, List<DataNode> allDataNodes) {
+		List<DataNode> selected = new ArrayList<>();
+		Random random = new Random();
 
-		for (int i = 0; i < numBlocks; i++) {
-			List<DataNode> selected = new ArrayList<>();
-			while (selected.size() < replication) {
-				DataNode dn = allDataNodes.get(rand.nextInt(allDataNodes.size()));
-				if (!selected.contains(dn)) selected.add(dn);
+		while (selected.size() < count && selected.size() < allDataNodes.size()) {
+			DataNode candidate = allDataNodes.get(random.nextInt(allDataNodes.size()));
+			if (!selected.contains(candidate)) {
+				selected.add(candidate);
 			}
-			pipelines.add(selected);
 		}
 
-		return pipelines;
+		return selected;
 	}
 
-	public void saveFileMetadata(String filename, int numBlocks) {
-		fileMetadata.put(filename, numBlocks);
-		System.out.println("NameNode: 저장된 파일 메타데이터 - " + filename + " (" + numBlocks + " blocks)");
+	public void saveFileMetadata(String filename, List<DataNode> nodes) {
+		fileLocations.put(filename, nodes);
 	}
 
-	// 블록 개수 조회
-	public int getBlockCount(String filename) {
-		return fileMetadata.getOrDefault(filename, 0);
+	public List<DataNode> getFileLocations(String filename) {
+		return fileLocations.getOrDefault(filename, new ArrayList<>());
 	}
-
 }
