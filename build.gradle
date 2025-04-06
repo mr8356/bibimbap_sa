@@ -1,23 +1,35 @@
 plugins {
-    id 'org.springframework.boot' version '3.2.2'
-    id 'io.spring.dependency-management' version '1.1.4'
     id 'java'
+    id 'application'
+    id 'org.springframework.boot' version '3.2.1'
+    id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'org.sopt'
 version = '1.0-SNAPSHOT'
 
 repositories {
-    mavenCentral()
+    mavenCentral() // Maven Central을 사용해 외부 의존성 다운로드
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    // 필요시 다른 스타터도 추가
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-logging' // 기본 로깅 설정
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // JPA & DataBase
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate:hibernate-core:6.2.8.Final'
+    runtimeOnly 'com.h2database:h2'
+
+    // JUnit 5 (Jupiter)
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation 'com.h2database:h2'
 }
 
-
-test {
+tasks.test {
     useJUnitPlatform()
 }

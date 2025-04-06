@@ -1,0 +1,21 @@
+server:
+  port: 8080
+  tomcat:
+    threads:
+      max: 300           # 최대 스레드 수
+      min-spare: 20      # 최소 예비 스레드 수
+    accept-count: 100    # 큐에 대기 가능한 요청 수
+    max-connections: 10000  # 최대 커넥션 수
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+        ddl-auto: create
+        show-sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: 1234
