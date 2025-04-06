@@ -4,6 +4,8 @@
 `Controller`, `Service`, `Repository` 계층으로 나누고, Spring의 **의존성 주입(DI)** 및 **스프링 빈 컨테이너(IoC)** 를 활용하여  
 객체를 자동 생성하고 **싱글톤으로 관리**합니다.
 
+/h2-console 로 DB 콘솔에 간편하게 접속합니다.
+
 ---
 
 ## 📁 프로젝트 구성
@@ -111,5 +113,175 @@ public class MemoApplication {
 	public static void main(String[] args){
 		SpringApplication.run(MemoApplication.class, args);
 	}
+}
+```
+
+---
+
+# API 명세서
+# 📑 메모장 + 유저 API 명세서
+
+## ✅ 공통 응답 형식 (ApiResponse)
+
+```json
+{
+  "status": 200,
+  "message": "요청이 성공했습니다.",
+  "data": { ... }
+}
+```
+
+---
+
+## 📘 Memo API
+
+### 📌 [POST] /memos
+**메모 생성**
+
+- 요청 바디:
+
+```json
+{
+  "title": "회의 메모",
+  "content": "회의는 오후 2시에 시작됨"
+}
+```
+
+- 응답:
+
+```json
+{
+  "status": 201,
+  "message": "정상적으로 생성되었습니다.",
+  "data": {
+    "id": 1,
+    "title": "회의 메모",
+    "content": "회의는 오후 2시에 시작됨"
+  }
+}
+```
+
+---
+
+### 📌 [GET] /memos
+**모든 메모 조회**
+
+- 응답:
+
+```json
+{
+  "status": 200,
+  "message": "요청이 성공했습니다.",
+  "data": [
+    {
+      "id": 1,
+      "title": "회의 메모",
+      "content": "회의는 오후 2시에 시작됨"
+    }
+  ]
+}
+```
+
+---
+
+### 📌 [GET] /memos/{id}
+**단일 메모 조회**
+
+- 응답:
+
+```json
+{
+  "status": 200,
+  "message": "요청이 성공했습니다.",
+  "data": {
+    "id": 1,
+    "title": "회의 메모",
+    "content": "회의는 오후 2시에 시작됨"
+  }
+}
+```
+
+---
+
+### 📌 [DELETE] /memos/{id}
+**메모 삭제**
+
+- 응답:
+
+```json
+{
+  "status": 200,
+  "message": "요청이 성공했습니다.",
+  "data": null
+}
+```
+
+---
+
+## 👤 User API
+
+### 📌 [POST] /users
+**유저 생성**
+
+- 요청 바디:
+
+```json
+{
+  "name": "홍길동",
+  "email": "hong@example.com"
+}
+```
+
+- 응답:
+
+```json
+{
+  "status": 201,
+  "message": "정상적으로 생성되었습니다.",
+  "data": {
+    "id": 1,
+    "name": "홍길동",
+    "email": "hong@example.com"
+  }
+}
+```
+
+---
+
+### 📌 [GET] /users
+**모든 유저 조회**
+
+- 응답:
+
+```json
+{
+  "status": 200,
+  "message": "요청이 성공했습니다.",
+  "data": [
+    {
+      "id": 1,
+      "name": "홍길동",
+      "email": "hong@example.com"
+    }
+  ]
+}
+```
+
+---
+
+### 📌 [GET] /users/{id}
+**단일 유저 조회**
+
+- 응답:
+
+```json
+{
+  "status": 200,
+  "message": "요청이 성공했습니다.",
+  "data": {
+    "id": 1,
+    "name": "홍길동",
+    "email": "hong@example.com"
+  }
 }
 ```
