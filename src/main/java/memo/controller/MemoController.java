@@ -7,6 +7,7 @@ import memo.common.ErrorCode;
 import memo.common.SuccessCode;
 import memo.dto.request.MemoRequestDto;
 import memo.dto.response.MemoListResponseDto;
+import memo.dto.response.MemoResponseDto;
 import memo.service.MemoService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,25 @@ public class MemoController {
 	}
 
 	@PostMapping
-	public ApiResponse addMemo(@RequestBody MemoRequestDto memoRequestDto) {
+	public ApiResponse<Void> addMemo(@RequestBody MemoRequestDto memoRequestDto) {
 		try {
-			memoService.addMemo(memoRequestDto);
+			memoService.createMemo(memoRequestDto);
 			return ApiResponse.success(SuccessCode.OK);
-		} catch (EntityNotFoundException e) {
+		} catch (Exception e) {
 			return ApiResponse.fail(ErrorCode.NOT_FOUND);
 		}
+	}
+
+	@GetMapping("/{id}")
+	public ApiResponse<MemoResponseDto> getMemoById(@PathVariable Long id) {
+		MemoResponseDto memo = memoService.getMemoById(id);
+		return ApiResponse.success(SuccessCode.OK, memo);
+	}
+
+	@DeleteMapping("/{id}")
+	public ApiResponse<Void> deleteMemo(@PathVariable Long id) {
+		memoService.deleteMemo(id);
+		return ApiResponse.success(SuccessCode.OK);
 	}
 
 }

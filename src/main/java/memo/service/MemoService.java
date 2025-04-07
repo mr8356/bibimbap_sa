@@ -16,8 +16,6 @@ import java.util.List;
 public class MemoService {
 	private final MemoRepository memoRepository;
 
-
-
 	public MemoListResponseDto getMemos(){
 		List<Memo> memos = memoRepository.findAll();
 		List<MemoResponseDto> memoResponseDtos = new ArrayList<>();
@@ -30,8 +28,32 @@ public class MemoService {
 		return new MemoListResponseDto(memoResponseDtos);
 	}
 
-	public void addMemo(MemoRequestDto memoRequestDto) {
-		Memo memoData = Memo.builder().title(memoRequestDto.getTitle()).content(memoRequestDto.getContent()).build();
-		memoRepository.save(memoData);
+	public MemoResponseDto createMemo(MemoRequestDto request) {
+		Memo memo = Memo.builder()
+				.title(request.getTitle())
+				.content(request.getContent())
+				.build();
+		Memo saved = memoRepository.save(memo);
+		return MemoResponseDto.builder()
+				.id(saved.getId())
+				.title(saved.getTitle())
+				.content(saved.getContent())
+				.build();
 	}
+
+	public MemoResponseDto getMemoById(Long id) {
+		Memo memo = memoRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("해당 메모가 없습니다."));
+		return MemoResponseDto.builder()
+				.id(memo.getId())
+				.title(memo.getTitle())
+				.content(memo.getContent())
+				.build();
+	}
+
+	public void deleteMemo(Long id) {
+		memoRepository.deleteById(id);
+	}
+
+
 }
