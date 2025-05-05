@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>할일 캘린더</title>
+    <style>
+        .calendar { max-width: 800px; margin: 20px auto; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+        .calendar-day { border: 1px solid #ddd; padding: 10px; min-height: 100px; }
+        .calendar-day.today { background-color: #f0f0f0; }
+        .todo-item { background: #e3f2fd; padding: 5px; margin: 5px 0; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="calendar">
+        <h1>할일 캘린더</h1>
+        <a href="/todos/list">목록 보기</a>
+        <div class="calendar-grid">
+            <div th:each="day : ${#numbers.sequence(1, 7)}" class="calendar-day">
+                <h3 th:text="${#temporals.format(#temporals.createNow().plusDays(day-1), 'MM-dd')}">날짜</h3>
+                <div th:each="todo : ${todos}" th:if="${#temporals.format(todo.dueDate, 'yyyy-MM-dd') == #temporals.format(#temporals.createNow().plusDays(day-1), 'yyyy-MM-dd')}" 
+                     class="todo-item" th:text="${todo.title}">할일</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

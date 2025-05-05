@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>할일 목록</title>
+    <style>
+        .todo-list { max-width: 600px; margin: 20px auto; }
+        .todo-item { padding: 10px; border-bottom: 1px solid #eee; }
+        .todo-date { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="todo-list">
+        <h1>할일 목록</h1>
+        <a href="/todos/calendar">캘린더 보기</a>
+        <div th:each="todo : ${todos}" class="todo-item">
+            <h3 th:text="${todo.title}">제목</h3>
+            <div class="todo-date" th:text="${#temporals.format(todo.dueDate, 'yyyy-MM-dd')}">날짜</div>
+        </div>
+    </div>
+</body>
+</html> 
