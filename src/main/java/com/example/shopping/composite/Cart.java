@@ -44,9 +44,11 @@ public class Cart implements ProductComponent {
 
     @Override
     public int getPrice() {
-        return items.stream()
-                .mapToInt(ProductComponent::getPrice)
-                .sum();
+        int total = 0;
+        for (ProductComponent item : items) {
+            total += item.getPrice();
+        }
+        return total;
     }
 
     @Override
