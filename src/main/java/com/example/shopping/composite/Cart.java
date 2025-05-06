@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.example.shopping.HalfSyncAsync.AsyncTask;
+import com.example.shopping.halfsync.AsyncTask;
 
 public class Cart implements ProductComponent {
     private String name;
