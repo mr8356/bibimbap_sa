@@ -9,5 +9,9 @@ import com.example.plugin.PluginManager;
 public class Application {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(Application.class, args);
+
+//        System.out.println("=== 플러그인 시스템 테스트 ===");
+//        PluginManager pluginManager = context.getBean(PluginManager.class);
+//        pluginManager.runAll().forEach(System.out::println);
     }
 } 
