@@ -10,15 +10,20 @@ import com.example.auth.strategy.LoginService;
 @RestController
 @RequestMapping("/api/auth")
 public class LoginController {
-    private final LoginService loginService;
-
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
-    }
 
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {
-        loginService.login(request.getUserId(), request.getLoginType());
+        if (request.getLoginType() == LoginType.GOOGLE) {
+            System.out.println("Google 로그인 시도: " + request.getUserId());
+            System.out.println("Google OAuth 인증 진행...");
+            System.out.println("Google 로그인 성공!");
+        } else if (request.getLoginType() == LoginType.KAKAO) {
+            System.out.println("카카오 로그인 시도: " + request.getUserId());
+            System.out.println("카카오 OAuth 인증 진행...");
+            System.out.println("카카오 로그인 성공!");
+        } else {
+            throw new IllegalArgumentException("지원하지 않는 로그인 타입입니다: " + request.getLoginType());
+        }
         return "로그인 성공";
     }
 } 

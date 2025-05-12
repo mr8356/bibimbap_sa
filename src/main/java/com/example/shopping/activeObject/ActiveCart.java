@@ -12,14 +12,9 @@ public class ActiveCart {
     private final ExecutorService executorService;
 
     public ActiveCart(String name) {
-        this.cart = new Cart(name);
-        this.scheduler = new Scheduler();
-        this.executorService = Executors.newSingleThreadExecutor();
-        this.executorService.execute(scheduler);
     }
 
     public void addItem(Product product) {
-        scheduler.enqueue(new AddItemRequest(cart, product));
     }
 
     public void print() {

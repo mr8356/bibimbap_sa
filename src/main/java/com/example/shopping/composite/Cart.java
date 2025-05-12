@@ -7,9 +7,9 @@ import java.util.concurrent.Executors;
 
 import com.example.shopping.halfsync.AsyncTask;
 
-public class Cart implements ProductComponent {
+public class Cart {
     private String name;
-    private List<ProductComponent> items;
+    private List<Product> items;
     private final AsyncTask asyncTask;
     private final ExecutorService executorService;
 
@@ -21,43 +21,48 @@ public class Cart implements ProductComponent {
         this.executorService.execute(asyncTask);
     }
 
-    public void addItemAsync(ProductComponent item) {
+    public void addItemAsync(Product item) {
         asyncTask.addTask(item);
     }
 
-    public void addItem(ProductComponent item) {
+    public void addItem(Product item) {
         items.add(item);
     }
 
-    public void removeItem(ProductComponent item) {
+    public void removeItem(Product item) {
         items.remove(item);
     }
 
-    public List<ProductComponent> getItems() {
+    public List<Product> getItems() {
         return new ArrayList<>(items);
     }
 
-    @Override
+    // 컴포지트 패턴 추가
+
     public String getName() {
         return name;
     }
 
-    @Override
     public int getPrice() {
         int total = 0;
-        for (ProductComponent item : items) {
-            total += item.getPrice();
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < items.get(i).getPrice(); j++) {
+                total++;
+            }
         }
         return total;
     }
 
-    @Override
     public void print() {
         System.out.println("\n=== " + name + " ===");
         System.out.println("장바구니 내 상품 목록:");
         
-        for (ProductComponent item : items) {
-            item.print();
+        for (int i = 0; i < items.size(); i++) {
+            for (int j = 0; j < 1; j++) {
+                for (int k = 0; k < 1; k++) {
+                    items.get(i).print();
+                }
+            }
         }
         
         System.out.println("총 금액: " + getPrice() + "원");
