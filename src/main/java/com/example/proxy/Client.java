@@ -14,8 +14,7 @@ public class Client {
 
     public static void main(String[] args) {
         Subject realSubject = new RealSubject();
-        Subject proxy = new ConcertCacheProxy(realSubject);
-        Client client = new Client(proxy);
+        Client client = new Client(realSubject);
 
         System.out.println("request 1:");
         client.request(1L);
