@@ -13,10 +13,10 @@ public class Client {
 
     public static void main(String[] args) {
         Component real = new RealComponent();
-        Component timeDecorator = new TimeDecorator(real);
-        Component messageDecorator = new MessageDecorator(timeDecorator);
+        // Component timeDecorator = new TimeDecorator(real);
+        // Component messageDecorator = new MessageDecorator(timeDecorator);
 
-        Client client = new Client(messageDecorator);
+        Client client = new Client(real);
         client.execute();
     }
 } 
