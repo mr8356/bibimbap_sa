@@ -16,20 +16,12 @@ public class DynamicProxyConfig {
     @Bean
     public OrderService orderService(LogTrace logTrace) {
         OrderService orderService = new OrderServiceImpl(orderRepository(logTrace));
-        return (OrderService) Proxy.newProxyInstance(
-            OrderService.class.getClassLoader(),
-            new Class[]{OrderService.class},
-            new LogTraceHandler(orderService, logTrace)
-        );
+        return null;
     }
 
     @Bean
     public OrderRepository orderRepository(LogTrace logTrace) {
         OrderRepository orderRepository = new OrderRepositoryImpl();
-        return (OrderRepository) Proxy.newProxyInstance(
-            OrderRepository.class.getClassLoader(),
-            new Class[]{OrderRepository.class},
-            new LogTraceHandler(orderRepository, logTrace)
-        );
+        return null;
     }
 } 
